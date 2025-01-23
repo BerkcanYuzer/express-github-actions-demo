@@ -8,10 +8,10 @@ on:
 
 jobs:
   check:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest  
 
     steps:
-    - name: Repository'yi Kontrol Et 📦
+    - name: Repository'yi Kontrol Et 
       uses: actions/checkout@v3
 
     - name: Node.js Kurulumu 
@@ -24,20 +24,22 @@ jobs:
       run: npm install
 
     - name: Commit Detayları 
+      shell: pwsh  
       run: |
-        echo "İşlem Tarihi: 2025-01-23 17:25:12"
+        echo "İşlem Tarihi: 2025-01-23 17:33:01"
         echo "Kullanıcı: BerkcanYuzer"
         echo "Commit Hash: ${{ github.sha }}"
         echo "Branch: ${{ github.ref }}"
 
-    - name: Uygulama Dosyalarını Listele 
+    - name: Dosya Yapısını Kontrol Et 
+      shell: pwsh   
       run: |
         echo " Proje Yapısı:"
-        ls -la
-        echo "index.js Kontrolü:"
-        if [ -f "index.js" ]; then
-          echo " index.js mevcut"
-        else
-          echo "index.js bulunamadı"
-          exit 1
-        fi
+        dir
+        echo " index.js Kontrolü:"
+        if (Test-Path "index.js") {
+            echo " index.js mevcut"
+        } else {
+            echo " index.js bulunamadı"
+            exit 1
+        }
