@@ -2,15 +2,21 @@
   "name": "express-github-actions-demo",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "pm2:start": "pm2 start index.js --name express-app"
   },
   "keywords": [],
   "author": "BerkcanYuzer",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "pm2": "^5.3.1"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   }
 }

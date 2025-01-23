@@ -7,39 +7,28 @@ on:
     branches: [ main ]
 
 jobs:
-  check:
-    runs-on: windows-latest  
-
+  setup:
+    runs-on: BERK-PC
+    
     steps:
-    - name: Repository'yi Kontrol Et 
-      uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.0.0
+          
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          
+      - name: Install dependencies
+        run: pnpm install
 
-    - name: Node.js Kurulumu 
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16.x'
-        cache: 'npm'
+      - name: Install PM2 globally
+        run: pnpm add -g pm2
 
-    - name: Bağımlılıkları Yükle 
-      run: npm install
-
-    - name: Commit Detayları 
-      shell: pwsh  
-      run: |
-        echo "İşlem Tarihi: 2025-01-23 17:33:01"
-        echo "Kullanıcı: BerkcanYuzer"
-        echo "Commit Hash: ${{ github.sha }}"
-        echo "Branch: ${{ github.ref }}"
-
-    - name: Dosya Yapısını Kontrol Et 
-      shell: pwsh   
-      run: |
-        echo " Proje Yapısı:"
-        dir
-        echo " index.js Kontrolü:"
-        if (Test-Path "index.js") {
-            echo " index.js mevcut"
-        } else {
-            echo " index.js bulunamadı"
-            exit 1
-        }
+      - name: Start server with PM2
+        run: pnpm pm2:start
