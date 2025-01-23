@@ -1,0 +1,43 @@
+name: Express.js CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Repository'yi Kontrol Et 📦
+      uses: actions/checkout@v3
+
+    - name: Node.js Kurulumu 
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16.x'
+        cache: 'npm'
+
+    - name: Bağımlılıkları Yükle 
+      run: npm install
+
+    - name: Commit Detayları 
+      run: |
+        echo "İşlem Tarihi: 2025-01-23 17:25:12"
+        echo "Kullanıcı: BerkcanYuzer"
+        echo "Commit Hash: ${{ github.sha }}"
+        echo "Branch: ${{ github.ref }}"
+
+    - name: Uygulama Dosyalarını Listele 
+      run: |
+        echo " Proje Yapısı:"
+        ls -la
+        echo "index.js Kontrolü:"
+        if [ -f "index.js" ]; then
+          echo " index.js mevcut"
+        else
+          echo "index.js bulunamadı"
+          exit 1
+        fi
