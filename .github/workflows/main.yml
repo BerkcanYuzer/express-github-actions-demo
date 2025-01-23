@@ -35,8 +35,11 @@ jobs:
         shell: cmd
         run: pnpm add -g pm2
 
-      - name: Manage PM2 process
+      - name: Stop existing PM2 process
         shell: cmd
-        run: |
-          pm2 delete express-app || true
-          pm2 start index.js --name express-app
+        continue-on-error: true
+        run: pm2 delete express-app
+
+      - name: Start PM2 process
+        shell: cmd
+        run: pm2 start index.js --name express-app --update-env
