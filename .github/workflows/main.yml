@@ -8,7 +8,10 @@ on:
 
 jobs:
   setup:
-    runs-on: BERK-PC
+    runs-on:
+      - self-hosted
+      - windows
+      - x64
     
     steps:
       - uses: actions/checkout@v4
