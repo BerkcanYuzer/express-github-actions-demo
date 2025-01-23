@@ -35,6 +35,8 @@ jobs:
         shell: cmd
         run: pnpm add -g pm2
 
-      - name: Start server with PM2
+      - name: Manage PM2 process
         shell: cmd
-        run: pnpm pm2:start
+        run: |
+          pm2 delete express-app || true
+          pm2 start index.js --name express-app
